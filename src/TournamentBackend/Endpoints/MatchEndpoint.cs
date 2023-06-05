@@ -49,8 +49,10 @@ public static class MatchEndpoint {
 		}
 		*/
 
-		ApiSuccess success = new() { Results = $"match {matchId}" };
-		return TypedResults.Ok(success);
+		//Match match 
+		ApiSuccess match = new() { Results = $"match {matchId}" };
+
+		return TypedResults.Ok(match);
 	}
 
 	public static Results<Ok<ApiSuccess>, NotFound> UpdateMatch(string tournamentId, string matchId) {

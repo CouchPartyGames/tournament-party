@@ -1,1 +1,1 @@
-namespace TournamentTime.Models;
+namespace CouchParty.TournamentBackend.Models;

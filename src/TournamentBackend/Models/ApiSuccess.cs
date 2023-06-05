@@ -1,4 +1,4 @@
-namespace TournamentTime.Models;
+namespace CouchParty.TournamentBackend.Models;
 
 
 public class ApiSuccess {

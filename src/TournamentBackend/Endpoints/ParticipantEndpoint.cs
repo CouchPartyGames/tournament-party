@@ -1,4 +1,4 @@
-namespace TournamentTime.Endpoints;
+namespace CouchParty.TournamentBackend.Endpoints;
 
 public static class ParticipantEndpoint {
 

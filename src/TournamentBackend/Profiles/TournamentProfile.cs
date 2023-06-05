@@ -1,1 +1,1 @@
-namespace TournamentTime.Profiles;
+namespace CouchParty.TournamentBackend.Profiles;

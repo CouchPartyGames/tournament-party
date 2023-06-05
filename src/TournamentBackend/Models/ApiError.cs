@@ -1,4 +1,4 @@
-namespace TournamentTime.Models;
+namespace CouchParty.TournamentBackend.Models;
 
 public sealed class ApiError {
 	public bool IsSuccess { get; } = false;

@@ -1,4 +1,4 @@
-namespace TournamentTime.Data;
+namespace CouchParty.TournamentBackend.Data;
 
 public sealed class TournamentContext : DbContext {
 

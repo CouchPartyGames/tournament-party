@@ -37,6 +37,7 @@ builder.Services.AddApiVersioning(options => {
 });
 */
 
+builder.Services.AddDbContext<TournamentContext>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
@@ -52,6 +53,7 @@ var versionSet = app.NewApiVersionSet()
 
 //app.UseAuthentication();
 //app.UseAuthorization();
+
 if (app.Environment.IsDevelopment()) {
     app.UseSwagger();
     app.UseSwaggerUI();

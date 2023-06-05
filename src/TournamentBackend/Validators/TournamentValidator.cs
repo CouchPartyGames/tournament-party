@@ -1,4 +1,4 @@
-namespace TournamentTime.Validators;
+namespace CouchParty.TournamentBackend.Validators;
 
 public sealed class TournamentValidator : AbstractValidator<CreateTournamentRequest> {
 
@@ -13,6 +13,5 @@ public sealed class TournamentValidator : AbstractValidator<CreateTournamentRequ
 		RuleFor(x => x.Type)
 			.IsInEnum();
 	}
-
 
 }

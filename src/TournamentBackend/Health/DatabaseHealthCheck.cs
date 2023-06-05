@@ -1,4 +1,4 @@
-namespace TournamentTime.Health;
+namespace CouchParty.TournamentBackend.Health;
 
 
 public class DatabaseHealthCheck : IHealthCheck {

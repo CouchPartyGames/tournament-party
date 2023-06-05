@@ -1,4 +1,4 @@
-namespace TournamentTime.Models;
+namespace CouchParty.TournamentBackend.Models;
 
 public enum EliminationLevel {
 	Single = 0,

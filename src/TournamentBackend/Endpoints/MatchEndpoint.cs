@@ -1,4 +1,4 @@
-namespace TournamentTime.Endpoints;
+namespace CouchParty.TournamentBackend.Endpoints;
 
 
 public static class MatchEndpoint {
@@ -61,6 +61,7 @@ public static class MatchEndpoint {
 		ApiSuccess success = new() { Results = "match" };
 		return TypedResults.Ok(success);
 	}
+
 
 	public static Results<NoContent, NotFound> DeleteMatch(string tournamentId, string matchId) {
 		if (false) {

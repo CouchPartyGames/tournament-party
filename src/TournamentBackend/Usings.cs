@@ -7,10 +7,10 @@ global using AutoMapper;
 global using Microsoft.Extensions.Diagnostics.HealthChecks;
 global using Microsoft.AspNetCore.Http.HttpResults;
 
-global using TournamentTime.Models;
-global using TournamentTime.Models.DTO;
-global using TournamentTime.Filters;
-global using TournamentTime.Endpoints;
-global using TournamentTime.Validators;
-global using TournamentTime.Data;
-global using TournamentTime.Profiles;
+global using CouchParty.TournamentBackend.Models;
+global using CouchParty.TournamentBackend.Models.DTO;
+global using CouchParty.TournamentBackend.Filters;
+global using CouchParty.TournamentBackend.Endpoints;
+global using CouchParty.TournamentBackend.Validators;
+global using CouchParty.TournamentBackend.Data;
+global using CouchParty.TournamentBackend.Profiles;

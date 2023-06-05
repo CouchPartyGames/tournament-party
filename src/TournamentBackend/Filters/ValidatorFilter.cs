@@ -1,4 +1,4 @@
-namespace TournamentTime.Filters;
+namespace CouchParty.TournamentBackend.Filters;
 
 public sealed class ValidatorFilter<T> : IEndpointFilter {
 

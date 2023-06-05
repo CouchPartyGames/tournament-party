@@ -1,4 +1,4 @@
-namespace TournamentTime.Validators;
+namespace CouchParty.TournamentBackend.Validators;
 
 public sealed class MatchValidator : AbstractValidator<MatchDTO> {
 

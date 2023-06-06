@@ -10,7 +10,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: tournamentbackend
+  IMAGE_NAME: couchpartygames/tournamentbackend
 
 jobs:
   # define job to build and publish docker image
@@ -48,15 +48,19 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
       
       - name: Build image and push to Docker Hub and GitHub Container Registry
         uses: docker/build-push-action@v4
         with:
           # relative path to the place where source code with Dockerfile is located
-          context: ./src/TournamentBackend
-          # Note: tags has to be all lower-case
-          tags: |
-            couchpartygames/tournamentbackend:0.0.2
+          context: ./src/TournamentBackend         
+          tags: ${{ steps.meta.outputs.tags }}
           push: true
           cache-from: type=gha
           cache-to: type=gha,mode=max

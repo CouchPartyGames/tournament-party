@@ -1,6 +1,4 @@
-LABEL org.opencontainers.image.source=https://github.com/couchpartygames/tournament-party
-LABEL org.opencontainers.image.description="Tournament Backend"
-LABEL org.opencontainers.image.licenses=MIT
+
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build-env
 WORKDIR /App

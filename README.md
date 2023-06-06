@@ -12,6 +12,6 @@ dotnet run
 All container images and CLI binaries are signed by cosign. See the documentation on how to verify the signatures.
 
     -----BEGIN PUBLIC KEY-----
-    MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE/XrD53irAsq5hIjdutm2osdEFdan
-    CD9fiIMC4epoEgzRoPJ6LwFTEj2pty1ALvARe/wxV3VbuL+1RUTXGXXo7w==
+    MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEtLl4tHEH5RDwB5aBuYMXHywW/9O6
+    Rl21a0Hukn5cFW0udVogVsFURKALt0rSnUeLEvReaGLESXRSVY4/9TK69w==
     -----END PUBLIC KEY-----

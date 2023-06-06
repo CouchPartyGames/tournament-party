@@ -51,7 +51,7 @@ jobs:
           context: ./src/TournamentBackend
           # Note: tags has to be all lower-case
           tags: |
-            ghcr.io/couchpartygames/tournamentbackend:latest
+            ghcr.io/couchpartygames/tournamentbackend:0.0.2
           push: true
 
       - name: Image digest

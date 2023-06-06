@@ -20,7 +20,9 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
+      contents: read
       packages: write
+      id-token: write
 
     # steps to perform in job
     steps:
@@ -54,8 +56,10 @@ jobs:
           context: ./src/TournamentBackend
           # Note: tags has to be all lower-case
           tags: |
-            ghcr.io/couchpartygames/tournamentbackend:0.0.2
+            couchpartygames/tournamentbackend:0.0.2
           push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}

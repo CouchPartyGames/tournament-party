@@ -7,10 +7,15 @@ var logging = new LoggingConfiguration()
 builder.Logging.AddSerilog(logging);
 */
 
+var multiplexer = ConnectionMultiplexer.Connect("localhost");
+
 builder.Logging.AddJsonConsole();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHealthChecks();
+
+builder.Services.AddSingleton<IConnectionMultiplexer>(multiplexer);
+
 /*	Sample Health Checks
 builder.Services.AddHealthChecks()
 	.AddCheck<SampleHealthCheck>("Sample")

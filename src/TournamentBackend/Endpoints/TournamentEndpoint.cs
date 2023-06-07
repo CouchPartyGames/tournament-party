@@ -66,6 +66,16 @@ public static class TournamentEndpoint {
 			.Produces<ApiSuccess>(200);
   			//.RequireAuthorization("Owner")
 			//.RequireAuthorization("Admin");
+
+		app.MapPost("/v1/tournament/{id}/enter", Enter)
+			.WithName("EnterTournament")
+			.Produces(404)
+			.Produces(204);
+
+		app.MapPost("/v1/tournament/{id}/exit", Exit)
+			.WithName("ExitTournament")
+			.Produces(400)
+			.Produces(204);
 	}
 
 
@@ -158,17 +168,40 @@ public static class TournamentEndpoint {
 		return TypedResults.NoContent();
 	}
 
+	// Tournament has started
 	public static Results<Ok<ApiSuccess>, NotFound> Start(string id) {
+		// Start Tournament
+		// Add Players to Database
+		// Remove Players from Redis List
 		ApiSuccess success = new() {
 			Results = "hello tournaments"
 		};
 		return TypedResults.Ok(success);
 	}
 
+	// Tournament is finished/completed
 	public static Results<Ok<ApiSuccess>, NotFound> Complete(string id) {
 		ApiSuccess success = new() {
 			Results = "hello tournaments"
 		};
 		return TypedResults.Ok(success);
+	}
+
+	// Player enters the tournament
+	public static Results<NoContent, NotFound> Enter(string id) {
+		// Make sure tournament exists
+		// Make sure tournament allowing entry
+		// Make sure tournament not started
+		// Add player to redis (list)
+
+		return TypedResults.NoContent();
+	}
+
+	// Player no longer wishes to compete in the tournament
+	public static Results<NoContent, NotFound> Exit(string id) {
+		// Make sure tournament exists
+		// Remove player from Redis (list)
+
+		return TypedResults.NoContent();
 	}
 }

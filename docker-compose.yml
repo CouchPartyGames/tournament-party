@@ -1,8 +1,21 @@
 version: '3.4'
 
 services:
-  tournamentbackend:
-    image: ${DOCKER_REGISTRY-}tournamentbackend
+  tournament-backend:
+    image: ${DOCKER_REGISTRY-}tournament-backend
     build:
       context: .
       dockerfile: src/TournamentBackend/Dockerfile
+
+
+  redis:
+    image: "redis:alpine"
+    command: redis-server
+    expose:
+     - "6379"
+    #volumes:
+    #  - redis-data:/data
+    #  - redis-conf:/usr/local/etc/redis/redis.confvolumes:
+
+  #redis-data:
+  #redis-conf:

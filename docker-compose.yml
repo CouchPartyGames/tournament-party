@@ -9,6 +9,8 @@ services:
     depends_on:
       - postgresql
       - redis
+    links:
+      - redis
 
 
   redis:

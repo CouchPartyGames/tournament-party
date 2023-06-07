@@ -67,12 +67,12 @@ public static class TournamentEndpoint {
   			//.RequireAuthorization("Owner")
 			//.RequireAuthorization("Admin");
 
-		app.MapPost("/v1/tournament/{id}/enter", Enter)
+		app.MapPost("/v1/tournaments/{id}/enter", Enter)
 			.WithName("EnterTournament")
 			.Produces(404)
 			.Produces(204);
 
-		app.MapPost("/v1/tournament/{id}/exit", Exit)
+		app.MapPost("/v1/tournaments/{id}/exit", Exit)
 			.WithName("ExitTournament")
 			.Produces(400)
 			.Produces(204);
@@ -169,10 +169,11 @@ public static class TournamentEndpoint {
 	}
 
 	// Tournament has started
-	public static Results<Ok<ApiSuccess>, NotFound> Start(string id) {
+	public static Results<Ok<ApiSuccess>, NotFound> Start(IConnectionMultiplexer redis, string id) {
 		// Start Tournament
 		// Add Players to Database
 		// Remove Players from Redis List
+		var db = redis.GetDatabase();
 		ApiSuccess success = new() {
 			Results = "hello tournaments"
 		};
@@ -188,19 +189,21 @@ public static class TournamentEndpoint {
 	}
 
 	// Player enters the tournament
-	public static Results<NoContent, NotFound> Enter(string id) {
+	public static Results<NoContent, NotFound> Enter(IConnectionMultiplexer redis, string id) {
 		// Make sure tournament exists
 		// Make sure tournament allowing entry
 		// Make sure tournament not started
 		// Add player to redis (list)
+		var db = redis.GetDatabase();
 
 		return TypedResults.NoContent();
 	}
 
 	// Player no longer wishes to compete in the tournament
-	public static Results<NoContent, NotFound> Exit(string id) {
+	public static Results<NoContent, NotFound> Exit(IConnectionMultiplexer redis, string id) {
 		// Make sure tournament exists
 		// Remove player from Redis (list)
+		var db = redis.GetDatabase();
 
 		return TypedResults.NoContent();
 	}

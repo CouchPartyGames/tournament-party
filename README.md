@@ -17,7 +17,7 @@ APPDATA=/Users/YOUR_USER
 Create certs and run 
 ```
 dotnet dev-certs https --trust
-docker-compose up
+docker-compose up --build
 ```
 
 ## Container Release signatures

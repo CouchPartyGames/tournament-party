@@ -10,7 +10,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: couchpartygames/tournamentbackend
+  IMAGE_NAME: couchpartygames/tournament-backend
 
 jobs:
 
@@ -49,20 +49,39 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Extract Docker metadata
-        id: meta
+        id: docker_meta
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
       
       - name: Build image and push to Docker Hub and GitHub Container Registry
         uses: docker/build-push-action@v4
+        id: build-and-push
         with:
           # relative path to the place where source code with Dockerfile is located
           context: ./src/TournamentBackend         
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: |
+            org.opencontainers.image.licenses=MIT
+		    org.opencontainers.image.source=https://github.com/couchpartygames/tournament-party
           push: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Sign image with a key
+        run: |
+          cosign sign --yes --key env://COSIGN_PRIVATE_KEY "${TAGS}@${DIGEST}"
+        env:
+          TAGS: ${{ steps.docker_meta.outputs.tags }}
+          COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+          DIGEST: ${{ steps.build-and-push.outputs.digest }}
+
+      - name: Sign the images with GitHub OIDC Token
+        env:
+          DIGEST: ${{ steps.build-and-push.outputs.digest }}
+          TAGS: ${{ steps.docker_meta.outputs.tags }}
+        run: cosign sign --yes "${TAGS}@${DIGEST}"
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}

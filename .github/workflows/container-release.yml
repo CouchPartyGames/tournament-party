@@ -61,7 +61,7 @@ jobs:
           # relative path to the place where source code with Dockerfile is located
           context: ./src/TournamentBackend         
           tags: ${{ steps.docker_meta.outputs.tags }}
-          #labels: org.opencontainers.image.licenses=MIT,org.opencontainers.image.source=https://github.com/couchpartygames/tournament-party
+          labels: org.opencontainers.image.licenses=MIT,org.opencontainers.image.source=https://github.com/couchpartygames/tournament-party
           push: true
           cache-from: type=gha
           cache-to: type=gha,mode=max

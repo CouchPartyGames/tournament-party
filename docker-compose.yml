@@ -6,6 +6,9 @@ services:
     build:
       context: .
       dockerfile: src/TournamentBackend/Dockerfile
+    depends_on:
+      - postgresql
+      - redis
 
 
   redis:
@@ -16,6 +19,23 @@ services:
     #volumes:
     #  - redis-data:/data
     #  - redis-conf:/usr/local/etc/redis/redis.confvolumes:
+
+
+  postgresql:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes: 
+      - postgres_data:/var/lib/postgresql/data
+
+
+volumes:
+  postgres_data:
+    driver: local
 
   #redis-data:
   #redis-conf:

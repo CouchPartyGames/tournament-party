@@ -6,7 +6,7 @@
     <ProjectGuid>5949d30a-d1c5-4981-8de4-ba865b5dc501</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}</DockerServiceUrl>
-    <DockerServiceName>tournamentbackend</DockerServiceName>
+    <DockerServiceName>tournament-backend</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">

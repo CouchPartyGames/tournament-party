@@ -29,13 +29,21 @@ jobs:
       #- name: Test
       #  run: dotnet test --configuration Release --no-build
 
-      - name: Publish
+      - name: Publish Linux
         run: |
           cd src/TournamentBackend
-          dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+          dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/linux-x64 -p:PublishSingleFile=true -r linux-x64 --self-contained true
+		  cd ${{env.DOTNET_ROOT}}/linux-x64
+          tar -cvf tournament-party.linux-x64.tar *
+
+
+      #- name: Publish Win
+      #  run: |
+      #    cd src/TournamentBackend
+      #    dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/win-x64 -p:PublishSingleFile=true -r win-x64 --self-contained true
 
       - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
-          name: tournament-party
-          path: ${{env.DOTNET_ROOT}}/myapp
+          name: tournament-party.linux-x64.tar
+          path: ${{env.DOTNET_ROOT}}

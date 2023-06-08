@@ -23,11 +23,11 @@ jobs:
       - name: Install dependencies
         run: |
           cd src/TournamentBackend
-          dotnet restore WebApi
-          dotnet build WebApi --configuration Release --no-restore
+          dotnet restore 
+          dotnet build --configuration Release --no-restore
 
       #- name: Test
-      #  run: dotnet test WebApi --configuration Release --no-build
+      #  run: dotnet test --configuration Release --no-build
 
       - name: Publish
         run: |

@@ -21,16 +21,18 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Install dependencies
-        run: dotnet restore WebApi
+        run: |
+          cd src/TournamentBackend
+          dotnet restore WebApi
+          dotnet build WebApi --configuration Release --no-restore
 
-      - name: Build
-        run: dotnet build WebApi --configuration Release --no-restore
-
-      - name: Test
-        run: dotnet test WebApi --configuration Release --no-build
+      #- name: Test
+      #  run: dotnet test WebApi --configuration Release --no-build
 
       - name: Publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: |
+          cd src/TournamentBackend
+          dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2

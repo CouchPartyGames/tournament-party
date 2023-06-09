@@ -7,11 +7,29 @@ var logging = new LoggingConfiguration()
 builder.Logging.AddSerilog(logging);
 */
 
-var multiplexer = ConnectionMultiplexer.Connect("redis");
+var multiplexer = ConnectionMultiplexer.Connect("localhost");
 
 builder.Logging.AddJsonConsole();
+builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options => {
+	options.SerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+});
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options => {
+	options.SwaggerDoc("v1", new OpenApiInfo { 
+		Version = "v1",
+		Title = "Tournament Backend API", 
+		Description = "Backend API for a Realtime Tournament Management System",
+		TermsOfService = new Uri("https://example.com/terms"),
+        Contact = new OpenApiContact {
+            Name = "Example Contact",
+            Url = new Uri("https://example.com/contact")
+        },
+        License = new OpenApiLicense {
+            Name = "Example License",
+            Url = new Uri("https://example.com/license")
+        }
+	});
+});
 builder.Services.AddHealthChecks();
 builder.Services.AddSingleton<IConnectionMultiplexer>(multiplexer);
 
@@ -25,10 +43,8 @@ builder.Services.AddHealthChecks()
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer();
-	.AddSteam();
 
 builder.Services.AddAuthorization();
-
 */
 
 
@@ -41,19 +57,13 @@ builder.Services.AddApiVersioning(options => {
 });
 */
 
-builder.Services.AddDbContext<TournamentContext>();
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+builder.Services.AddDbContext<TournamentContext>(options => 
+	options.UseNpgsql(builder.Configuration["ConnectionString"] ));
+//builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+//builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 
 var app = builder.Build();
-/*
-var versionSet = app.NewApiVersionSet()
-	.HasApiVersion(new ApiVersion(1))
-	.HasApiVersion(new ApiVersion(2))
-	.ReportApiVersions()
-	.Build();
-*/
 
 //app.UseAuthentication();
 //app.UseAuthorization();

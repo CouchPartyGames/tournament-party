@@ -6,7 +6,11 @@ global using Asp.Versioning.Conventions;
 global using AutoMapper;
 global using Microsoft.Extensions.Diagnostics.HealthChecks;
 global using Microsoft.AspNetCore.Http.HttpResults;
+global using Microsoft.OpenApi.Models;
 global using StackExchange.Redis;
+global using System.ComponentModel.DataAnnotations;
+global using System.ComponentModel.DataAnnotations.Schema;
+global using System.Text.Json.Serialization;
 
 global using CouchParty.TournamentBackend.Models;
 global using CouchParty.TournamentBackend.Models.DTO;

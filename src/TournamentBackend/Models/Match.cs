@@ -1,15 +1,17 @@
 namespace CouchParty.TournamentBackend.Models;
 
-public enum MatchState {
-	Ready,
-	OpponentsRegistered,
-	Started,
-	InProgress,
-	Completed
-}
 
 
 public class Match {
+
+	public enum MatchState {
+		Ready,
+		OpponentsRegistered,
+		Started,
+		InProgress,
+		Completed
+	}
+	
 	public int Id { get; set; }
 
 	public MatchState State { get; set; }

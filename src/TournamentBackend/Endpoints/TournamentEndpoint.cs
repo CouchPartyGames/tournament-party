@@ -4,16 +4,6 @@ public static class TournamentEndpoint {
 
 	public static void TournamentEndpoints(this WebApplication app) {
 
-		//app.MapGet("/v{version:apiVersion}/tournaments/{id}", GetTournament)
-   			//.WithApiVersionSet(versionSet)
-			//.HasApiVersions(new [] { new ApiVersion(1), new ApiVersion(2) });
-
-		app.MapGet("/v1/tournaments", GetTournaments)
-			.WithName("GetTournaments")
-			.Produces<ApiError>(400)
-			.Produces<ApiError>(404)
-			.Produces<ApiSuccess>(200);
-     		//.AllowAnonymous();
 
 		app.MapGet("/v1/tournaments/{id}", GetTournament)
 			.WithName("GetTournament")
@@ -72,49 +62,28 @@ public static class TournamentEndpoint {
 			.Produces(404)
 			.Produces(204);
 
-		app.MapPost("/v1/tournaments/{id}/exit", Exit)
-			.WithName("ExitTournament")
+		app.MapPost("/v1/tournaments/{id}/exit", Leave)
+			.WithName("LeaveTournament")
 			.Produces(400)
 			.Produces(204);
 	}
 
 
-	public static Results<Ok<ApiSuccess>, BadRequest<ApiError>, NotFound> GetTournaments() {
-		if (false) {
-			ApiError err = new() {
-				ErrorMessages = new List<string>() { "Bad stuff" }
-			};
-			return TypedResults.BadRequest(err);
+
+	public static Results<Ok<ApiSuccess>, NotFound> GetTournament(TournamentContext db, int id) { 
+		var results = db.Tournament.Where(x => x.Id == id).FirstOrDefault();
+		if (results is null) {
+        	return TypedResults.NotFound();
 		}
 
-		using (var context = new TournamentContext()) {
-			
-			var tournys = context.Tournament.ToList();
-			ApiSuccess success = new() {
-				Results = tournys
-			};
-			return TypedResults.Ok(success);
-		}
-		
-	}
-
-	public static Results<Ok<ApiSuccess>, NotFound> GetTournament(string id) {
-		//return TypedResults.BadRequest();
-		//return TypedResults.NotFound();
-		using (var db = new TournamentContext()) {
-			var results = db.Tournament.Where(x => x.Id == id).First();
-			
-			
-			ApiSuccess success = new() {
-				Results = results
-			};
-			return TypedResults.Ok(success);
-		}
-	}
+		ApiSuccess success = new() {
+			Results = results
+		};
+		return TypedResults.Ok(success);
+    }
 
 
-	public static Results<Created<ApiSuccess>, BadRequest, NotFound> CreateTournament(CreateTournamentRequest request /*, */
-		/*IValidator<CreateTournamentRequest> validator*/) {
+	public static Results<Created<ApiSuccess>, BadRequest> CreateTournament(TournamentContext db, CreateTournamentRequest request /*, IValidator<CreateTournamentRequest> validator*/) {
 /*
 		ValidationResult results = validator.Validate(request);
 		if (!results.IsValid) {
@@ -123,6 +92,8 @@ public static class TournamentEndpoint {
 		}
 */
 
+		//var tournament = new Tournament { Id = "1" };
+		//var result = await db.Tournament.AddAsync( tournament );
 /*
 		using (var context = new TournamentContext()) {
 			try {
@@ -173,7 +144,7 @@ public static class TournamentEndpoint {
 		// Start Tournament
 		// Add Players to Database
 		// Remove Players from Redis List
-		var db = redis.GetDatabase();
+		//var db = redis.GetDatabase();
 		ApiSuccess success = new() {
 			Results = "hello tournaments"
 		};
@@ -194,16 +165,16 @@ public static class TournamentEndpoint {
 		// Make sure tournament allowing entry
 		// Make sure tournament not started
 		// Add player to redis (list)
-		var db = redis.GetDatabase();
+		//var db = redis.GetDatabase();
 
 		return TypedResults.NoContent();
 	}
 
 	// Player no longer wishes to compete in the tournament
-	public static Results<NoContent, NotFound> Exit(IConnectionMultiplexer redis, string id) {
+	public static Results<NoContent, NotFound> Leave(IConnectionMultiplexer redis, string id) {
 		// Make sure tournament exists
 		// Remove player from Redis (list)
-		var db = redis.GetDatabase();
+		//var db = redis.GetDatabase();
 
 		return TypedResults.NoContent();
 	}

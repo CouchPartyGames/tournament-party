@@ -1,27 +1,31 @@
 namespace CouchParty.TournamentBackend.Models;
 
-public enum EliminationLevel {
-	Single = 0,
-	Double,
-	Triple
-}
-
-public enum DrawType {
-	Seeded,
-	Blind
-}
-
-public enum TournamentState {
-	Registration,
-	Finalized,
-	Start,
-	Completed
-}
 
 public sealed class Tournament {
 
-	public string Id { get; set; }
+	public enum EliminationLevel {
+		Single = 0,
+		Double,
+		Triple
+	}
 
+	public enum DrawType {
+		Seeded,
+		Blind
+	}
+
+	public enum TournamentState {
+		Registration,
+		Finalized,
+		Start,
+		Completed
+	}
+	
+	[Column(Order = 1)]
+	public int Id { get; set; }
+
+	[Required]
+	[Column(TypeName = "varchar(25)", Order = 2)]
 	public string Name { get; set; }
 
 	public EliminationLevel Level { get; set; } = EliminationLevel.Single;

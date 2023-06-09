@@ -37,10 +37,6 @@ jobs:
           tar -cvf tournament-party.linux-x64.tar *
 
 
-      #- name: Publish Win
-      #  run: |
-      #    cd src/TournamentBackend
-      #    dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/win-x64 -p:PublishSingleFile=true -r win-x64 --self-contained true
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3

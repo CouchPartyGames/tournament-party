@@ -1,20 +1,24 @@
 namespace CouchParty.TournamentBackend.Models;
 
 
-public sealed class Tournament {
+public sealed class Tournament
+{
 
-	public enum EliminationLevel {
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum EliminationLevel {
 		Single = 0,
 		Double,
 		Triple
 	}
 
-	public enum DrawType {
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum DrawType {
 		Seeded,
 		Blind
 	}
 
-	public enum TournamentState {
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum TournamentState {
 		Registration,
 		Finalized,
 		Start,

@@ -1,3 +1,5 @@
+using CouchParty.TournamentBackend.Data;
+
 namespace CouchParty.TournamentBackend.Endpoints;
 
 public static class TournamentEndpoint {
@@ -83,35 +85,23 @@ public static class TournamentEndpoint {
     }
 
 
-	public static Results<Created<ApiSuccess>, BadRequest> CreateTournament(TournamentContext db, CreateTournamentRequest request /*, IValidator<CreateTournamentRequest> validator*/) {
-/*
-		ValidationResult results = validator.Validate(request);
+	public static Results<Created<ApiSuccess>, BadRequest> CreateTournament(CreateTournamentRequest request, TournamentContext db /*, IValidator<CreateTournamentRequest> validator*/) {
+
+        /*
+		FluentValidation.ValidationResult results = validator.Validate(request);
 		if (!results.IsValid) {
 			//return Results.ValidationProblem(results.Errors);
 			return Results.BadRequest(results.Errors);
-		}
-*/
+		}*/
 
-		//var tournament = new Tournament { Id = "1" };
-		//var result = await db.Tournament.AddAsync( tournament );
-/*
-		using (var context = new TournamentContext()) {
-			try {
-				context.Add(new Tournament {
-					Id = "test",
-					Name = "First Tournament"
-				});
-				context.SaveChanges();
-			} catch(DbUpdateException e) {
-				return TypedResults.BadRequest("failed");
-			}
-		}
-*/
+        var tournament = new Tournament { Name = request.Name };
+        db.Add(tournament);
+        db.SaveChanges();
 
-		ApiSuccess success = new() {
-			Results = "hello tournaments"
+        ApiSuccess success = new() {
+			Results = tournament
 		};
-		return TypedResults.Created("/v1/tournaments/1", success);
+		return TypedResults.Created("/v1/tournaments/", success);
 	}
 
 	public static Results<Ok<ApiSuccess>, NotFound> UpdateTournament(CreateTournamentRequest request) {

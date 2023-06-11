@@ -1,4 +1,5 @@
 using CouchParty.TournamentBackend.Data;
+using System.ComponentModel.DataAnnotations;
 
 namespace CouchParty.TournamentBackend.Endpoints;
 
@@ -22,8 +23,12 @@ public static class TournamentEndpoint {
 			.Produces<ApiError>(StatusCodes.Status422UnprocessableEntity)
 			.Produces<ApiSuccess>(200)
   			.AddEndpointFilter<ValidatorFilter<CreateTournamentRequest>>();
-  			//.RequireAuthorization("Owner")
-			//.RequireAuthorization("Admin");
+        //.RequireAuthorization("Owner")
+        //.RequireAuthorization("Admin");
+
+
+            // Create Tournament from a Template
+        //app.MapPut("/v1/tournaments/templates/{id}", CreateTournamentFromTemplate);
 
 		app.MapPost("/v1/tournaments", CreateTournament)
 			.WithName("CreateTournament")
@@ -71,8 +76,11 @@ public static class TournamentEndpoint {
 	}
 
 
-
-	public static Results<Ok<ApiSuccess>, NotFound> GetTournament(TournamentContext db, int id) { 
+    /// <summary>
+    /// Returns a specific Tournament.
+    /// </summary>
+    /// <param name="id"></param>
+    public static Results<Ok<ApiSuccess>, NotFound> GetTournament(int id, TournamentContext db) { 
 		var results = db.Tournament.Where(x => x.Id == id).FirstOrDefault();
 		if (results is null) {
         	return TypedResults.NotFound();
@@ -84,15 +92,18 @@ public static class TournamentEndpoint {
 		return TypedResults.Ok(success);
     }
 
+    /// <summary>
+    /// Creates a Tournament.
+    /// </summary>
+    public static Results<Created<ApiSuccess>, BadRequest> CreateTournament(CreateTournamentRequest request, TournamentContext db, IValidator<CreateTournamentRequest> validator) {
 
-	public static Results<Created<ApiSuccess>, BadRequest> CreateTournament(CreateTournamentRequest request, TournamentContext db /*, IValidator<CreateTournamentRequest> validator*/) {
-
-        /*
-		FluentValidation.ValidationResult results = validator.Validate(request);
+        FluentValidation.Results.ValidationResult results = validator.Validate(request);
 		if (!results.IsValid) {
-			//return Results.ValidationProblem(results.Errors);
-			return Results.BadRequest(results.Errors);
-		}*/
+			//return TypedResults.ValidationProblem(results.Errors);
+			//return TypedResults.BadRequest(results.Errors);
+            return TypedResults.BadRequest();
+
+        }
 
         var tournament = new Tournament { Name = request.Name };
         db.Add(tournament);
@@ -104,33 +115,60 @@ public static class TournamentEndpoint {
 		return TypedResults.Created("/v1/tournaments/", success);
 	}
 
-	public static Results<Ok<ApiSuccess>, NotFound> UpdateTournament(CreateTournamentRequest request) {
-		//return Results.BadRequest();
-		//return Results.NotFound();
 
-		ApiSuccess success = new() {
+    /// <summary>
+    /// Updates a specific Tournament.
+    /// </summary>
+    /// <param name="id"></param>
+    public static Results<Ok<ApiSuccess>, BadRequest, NotFound> UpdateTournament(int id, CreateTournamentRequest request, TournamentContext db, IValidator<CreateTournamentRequest> validator) {
+
+        FluentValidation.Results.ValidationResult results = validator.Validate(request);
+        if (!results.IsValid) {
+            //return TypedResults.ValidationProblem(results.Errors);
+            //return TypedResults.BadRequest(results.Errors);
+            return TypedResults.BadRequest();
+
+        }
+
+        var tournament = db.Tournament.Find(id);
+        if (tournament is null) {
+            return TypedResults.NotFound();
+        }
+
+        //return Results.BadRequest();
+
+        ApiSuccess success = new() {
 			Results = "hello tournaments"
 		};
 		return TypedResults.Ok(success);
 	}
 
-	public static Results<NoContent, NotFound> DeleteTournament(string id) {
-		//return Results.BadRequest();
-		if (false) {
+    /// <summary>
+    /// Deletes a specific Tournament.
+    /// </summary>
+    /// <param name="id"></param>
+    public static Results<NoContent, NotFound> DeleteTournament(int id, TournamentContext db) { 
+        var tournament = db.Tournament.Find(id);
+
+        if (tournament is null) {
 			return TypedResults.NotFound();
 		}
 
-		return TypedResults.NoContent();
+        
+        db.Remove(tournament);
+        db.SaveChanges();
+
+        return TypedResults.NoContent();
 	}
 
-	public static Results<NoContent, NotFound> Finalize(string id) {
+	public static Results<NoContent, NotFound> Finalize(int id) {
 		// Get Tournament
 		// Create Matches	
 		return TypedResults.NoContent();
 	}
 
 	// Tournament has started
-	public static Results<Ok<ApiSuccess>, NotFound> Start(IConnectionMultiplexer redis, string id) {
+	public static Results<Ok<ApiSuccess>, NotFound> Start(int id, IConnectionMultiplexer redis) {
 		// Start Tournament
 		// Add Players to Database
 		// Remove Players from Redis List
@@ -142,7 +180,7 @@ public static class TournamentEndpoint {
 	}
 
 	// Tournament is finished/completed
-	public static Results<Ok<ApiSuccess>, NotFound> Complete(string id) {
+	public static Results<Ok<ApiSuccess>, NotFound> Complete(int id) {
 		ApiSuccess success = new() {
 			Results = "hello tournaments"
 		};
@@ -150,7 +188,7 @@ public static class TournamentEndpoint {
 	}
 
 	// Player enters the tournament
-	public static Results<NoContent, NotFound> Enter(IConnectionMultiplexer redis, string id) {
+	public static Results<NoContent, NotFound> Enter(int id, IConnectionMultiplexer redis) {
 		// Make sure tournament exists
 		// Make sure tournament allowing entry
 		// Make sure tournament not started
@@ -161,7 +199,7 @@ public static class TournamentEndpoint {
 	}
 
 	// Player no longer wishes to compete in the tournament
-	public static Results<NoContent, NotFound> Leave(IConnectionMultiplexer redis, string id) {
+	public static Results<NoContent, NotFound> Leave(int id, IConnectionMultiplexer redis) {
 		// Make sure tournament exists
 		// Remove player from Redis (list)
 		//var db = redis.GetDatabase();

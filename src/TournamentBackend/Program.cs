@@ -1,3 +1,5 @@
+using System.Reflection;
+
 var builder = WebApplication.CreateBuilder(args);
 
 /* Serilog
@@ -21,14 +23,17 @@ builder.Services.AddSwaggerGen(options => {
 		Description = "Backend API for a Realtime Tournament Management System",
 		TermsOfService = new Uri("https://example.com/terms"),
         Contact = new OpenApiContact {
-            Name = "Example Contact",
-            Url = new Uri("https://example.com/contact")
+            Name = "Contact",
+            Url = new Uri("https://github.com/CouchPartyGames/tournament-party/issues/new")
         },
         License = new OpenApiLicense {
-            Name = "Example License",
-            Url = new Uri("https://example.com/license")
+            Name = "License",
+            Url = new Uri("https://github.com/CouchPartyGames/tournament-party/blob/main/LICENSE")
         }
 	});
+
+    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 builder.Services.AddHealthChecks();
 builder.Services.AddSingleton<IConnectionMultiplexer>(multiplexer);
@@ -60,7 +65,7 @@ builder.Services.AddApiVersioning(options => {
 builder.Services.AddDbContext<TournamentContext>(options => 
 	options.UseNpgsql(builder.Configuration["ConnectionString"] ));
 //builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-//builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 
 var app = builder.Build();

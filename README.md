@@ -1,5 +1,5 @@
 # tournament-party
-Online Tournament with REST API
+Realtime Tournament Management System written in C# (Asp.net)
 
 
 
@@ -28,3 +28,9 @@ All container images and CLI binaries are signed by cosign. See the documentatio
     MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEtLl4tHEH5RDwB5aBuYMXHywW/9O6
     Rl21a0Hukn5cFW0udVogVsFURKALt0rSnUeLEvReaGLESXRSVY4/9TK69w==
     -----END PUBLIC KEY-----
+
+
+## Helm Support
+
+
+    helm install 

@@ -72,6 +72,6 @@ if (app.Environment.IsDevelopment()) {
 app.MapHealthChecks("/healthz");
 app.MatchEndpoints();
 app.TournamentEndpoints();
-app.TournamentTemplates();
+app.TemplateEndpoints();
 
 app.Run();

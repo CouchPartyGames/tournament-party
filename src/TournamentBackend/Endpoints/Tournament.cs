@@ -1,18 +1,16 @@
 using CouchParty.TournamentBackend.Data;
 using System.ComponentModel.DataAnnotations;
+using TournamentModel = CouchParty.TournamentBackend.Models.Tournament;
 
 namespace CouchParty.TournamentBackend.Endpoints;
 
-public static class TournamentEndpoint {
+public static class Tournament {
 
 	public static void TournamentEndpoints(this WebApplication app) {
 
 
 		app.MapGet("/v1/tournaments/{id}", GetTournament)
-			.WithName("GetTournament")
-			.Produces<ApiError>(400)
-			.Produces<ApiError>(404)
-			.Produces<ApiSuccess>(200);
+			.WithName("GetTournament");
      		//.AllowAnonymous();
 
 		app.MapPut("/v1/tournaments/{id}", UpdateTournament)
@@ -43,38 +41,23 @@ public static class TournamentEndpoint {
 			.WithName("CreateTournamentFromTemplate");
 
 		app.MapDelete("/v1/tournaments/{id}", DeleteTournament)
-			.WithName("DeleteTournament")
-			.Produces<ApiError>(400)
-			.Produces<ApiError>(404)
-			.Produces(204);
+			.WithName("DeleteTournament");
   			//.RequireAuthorization("Owner")
 			//.RequireAuthorization("Admin");
 
 		app.MapGet("/v1/tournaments/{id}/start", Start)
-			.WithName("StartTournament")
-			.Produces<ApiError>(400)
-			.Produces<ApiError>(404)
-			.Produces<ApiSuccess>(200);
+			.WithName("StartTournament");
   			//.RequireAuthorization("Owner")
 			//.RequireAuthorization("Admin");
 
 		app.MapPost("/v1/tournaments/{id}/complete", Complete)
-			.WithName("CompleteTournament")
-			.Produces<ApiError>(400)
-			.Produces<ApiError>(404)
-			.Produces<ApiSuccess>(200);
-  			//.RequireAuthorization("Owner")
-			//.RequireAuthorization("Admin");
+			.WithName("CompleteTournament");
 
 		app.MapPost("/v1/tournaments/{id}/enter", Enter)
-			.WithName("EnterTournament")
-			.Produces(404)
-			.Produces(204);
+			.WithName("EnterTournament");
 
 		app.MapPost("/v1/tournaments/{id}/exit", Leave)
-			.WithName("LeaveTournament")
-			.Produces(400)
-			.Produces(204);
+			.WithName("LeaveTournament");
 	}
 
 
@@ -107,7 +90,7 @@ public static class TournamentEndpoint {
 
         }
 
-        var tournament = new Tournament { Name = request.Name };
+        var tournament = new TournamentModel { Name = request.Name };
         db.Add(tournament);
         db.SaveChanges();
 
@@ -144,8 +127,8 @@ public static class TournamentEndpoint {
             return TypedResults.NotFound();
         }
 
-        //return Results.BadRequest();
 
+		db.SaveChanges();
         ApiSuccess success = new() {
 			Results = "hello tournaments"
 		};

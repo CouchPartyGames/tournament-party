@@ -1,24 +1,17 @@
 namespace CouchParty.TournamentBackend.Endpoints;
 
+using MatchModel = CouchParty.TournamentBackend.Models.Match;
 
-public static class MatchEndpoint {
+public static class Match {
 
 	public static void MatchEndpoints(this WebApplication app) {
 
 		app.MapGet("/v1/matches/{id}", GetMatch)
-			.WithName("GetMatch")
-			.Produces<ApiError>(400)
-			.Produces<ApiError>(404)
-			.Produces<ApiSuccess>(200);
+			.WithName("GetMatch");
      		//.AllowAnonymous();
 
 		app.MapPut("/v1/matches/{id}", UpdateMatch)
-			.WithName("UpdateMatch")
-			.Accepts<MatchDTO>("application/json")
-			.Produces<ApiError>(400)
-			.Produces<ApiError>(404)
-			.Produces<ApiError>(StatusCodes.Status422UnprocessableEntity)
-			.Produces<ApiSuccess>(200);
+			.WithName("UpdateMatch");
   			//.AddEndpointFilter<ValidatorFilter<MatchDTO>>();
   			//.RequireAuthorization("Owner")
 			//.RequireAuthorization("Admin");
@@ -34,22 +27,11 @@ public static class MatchEndpoint {
     /// Get a specific Match
     /// </summary>
     /// <param name="id"></param>
-	public static Results<Ok<ApiSuccess>, NotFound> GetMatch(string tournamentId, string matchId) {
-		if (false) {
-			return TypedResults.NotFound();
+	public static Results<Ok<MatchModel>, NotFound> GetMatch(string matchId, TournamentContext db) {
+        var match = db.Match.Find(matchId);
+        if (match is null) {
+            return TypedResults.NotFound();
 		}
-
-		/*
-		var match = context.Matches
-			.Where(p => p.Id == id);
-
-		if (!match) {
-			return Results.NotFound();
-		}
-		*/
-
-		//Match match 
-		ApiSuccess match = new() { Results = $"match {matchId}" };
 
 		return TypedResults.Ok(match);
 	}
@@ -58,14 +40,16 @@ public static class MatchEndpoint {
     /// Update a specific Match
     /// </summary>
     /// <param name="id"></param>
-	public static Results<Ok<ApiSuccess>, NotFound> UpdateMatch(string matchId, TournamentContext db) {
+	public static Results<Ok<MatchModel>, NotFound> UpdateMatch(string matchId, TournamentContext db) {
         var match = db.Match.Find(matchId);
 		if (match is null) {
 			return TypedResults.NotFound();
 		}
 
-		ApiSuccess success = new() { Results = "match" };
-		return TypedResults.Ok(success);
+		//match.
+		db.SaveChanges();
+
+		return TypedResults.Ok(match);
 	}
 
 
@@ -80,8 +64,11 @@ public static class MatchEndpoint {
 		}
 
         db.Remove(match);
-        db.SaveChanges();
+        int changes = db.SaveChanges();
+		if (changes > 0) {
+			return TypedResults.NoContent();
+		}
 
-		return TypedResults.NoContent();
+		return TypedResults.NotFound();
 	}
 }

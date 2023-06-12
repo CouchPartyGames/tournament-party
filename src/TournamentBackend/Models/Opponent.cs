@@ -1,1 +1,0 @@
-namespace CouchParty.TournamentParty.Models;

@@ -1,8 +1,7 @@
 namespace CouchParty.TournamentBackend.Models;
 
 
-public sealed class Tournament
-{
+public sealed class Tournament {
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum EliminationLevel {
@@ -42,7 +41,7 @@ public sealed class Tournament
 
 	public TimeOnly Time { get; set; }
 
-	public int MinPlayers { get; set; }
+	public int MinPlayers { get; set; } = 2;
 
 	public int MaxPlayers { get; set; }
 }

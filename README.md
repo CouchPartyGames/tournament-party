@@ -30,7 +30,8 @@ All container images and CLI binaries are signed by cosign. See the documentatio
     -----END PUBLIC KEY-----
 
 
-## Helm Support
+## Helm Support (Kubernetes)
 
+Tournament Party is packaged for easy deployment to kubernetes environments using helm. https://github.com/CouchPartyGames/helm-charts
 
     helm install 

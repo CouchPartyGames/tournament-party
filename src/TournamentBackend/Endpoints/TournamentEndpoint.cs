@@ -27,8 +27,6 @@ public static class TournamentEndpoint {
         //.RequireAuthorization("Admin");
 
 
-            // Create Tournament from a Template
-        //app.MapPut("/v1/tournaments/templates/{id}", CreateTournamentFromTemplate);
 
 		app.MapPost("/v1/tournaments", CreateTournament)
 			.WithName("CreateTournament")
@@ -39,6 +37,10 @@ public static class TournamentEndpoint {
   			.AddEndpointFilter<ValidatorFilter<CreateTournamentRequest>>();
   			//.RequireAuthorization("Owner")
 			//.RequireAuthorization("Admin");
+
+            // Create Tournament from a Template
+        app.MapPut("/v1/tournaments/templates/{id}", CreateTournamentFromTemplate)
+			.WithName("CreateTournamentFromTemplate");
 
 		app.MapDelete("/v1/tournaments/{id}", DeleteTournament)
 			.WithName("DeleteTournament")
@@ -115,6 +117,13 @@ public static class TournamentEndpoint {
 		return TypedResults.Created("/v1/tournaments/", success);
 	}
 
+	
+    /// <summary>
+    /// Creates a Tournament from a Preset Template
+    /// </summary>
+    public static Results<Created, NotFound> CreateTournamentFromTemplate(int templateId, TournamentContext db) {
+		return TypedResults.Created("/v1/tournaments/");
+	} 
 
     /// <summary>
     /// Updates a specific Tournament.

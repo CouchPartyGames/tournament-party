@@ -24,17 +24,16 @@ public static class MatchEndpoint {
 			//.RequireAuthorization("Admin");
 
 		app.MapDelete("/v1/matches/{id}", DeleteMatch)
-			.WithName("DeleteMatch")
-			.Produces<ApiError>(400)
-			.Produces<ApiError>(404)
-			.Produces(204);
+			.WithName("DeleteMatch");
   			//.RequireAuthorization("Owner")
 			//.RequireAuthorization("Admin");
 	}
 
 
-
-
+    /// <summary>
+    /// Get a specific Match
+    /// </summary>
+    /// <param name="id"></param>
 	public static Results<Ok<ApiSuccess>, NotFound> GetMatch(string tournamentId, string matchId) {
 		if (false) {
 			return TypedResults.NotFound();
@@ -55,8 +54,13 @@ public static class MatchEndpoint {
 		return TypedResults.Ok(match);
 	}
 
-	public static Results<Ok<ApiSuccess>, NotFound> UpdateMatch(string tournamentId, string matchId) {
-		if (false) {
+    /// <summary>
+    /// Update a specific Match
+    /// </summary>
+    /// <param name="id"></param>
+	public static Results<Ok<ApiSuccess>, NotFound> UpdateMatch(string matchId, TournamentContext db) {
+        var match = db.Match.Find(matchId);
+		if (match is null) {
 			return TypedResults.NotFound();
 		}
 
@@ -65,10 +69,18 @@ public static class MatchEndpoint {
 	}
 
 
-	public static Results<NoContent, NotFound> DeleteMatch(string tournamentId, string matchId) {
-		if (false) {
+    /// <summary>
+    /// Deletes a specific Match
+    /// </summary>
+    /// <param name="id"></param>
+	public static Results<NoContent, NotFound> DeleteMatch(string matchId, TournamentContext db) {
+        var match = db.Match.Find(matchId);
+		if (match is null) {
 			return TypedResults.NotFound();
 		}
+
+        db.Remove(match);
+        db.SaveChanges();
 
 		return TypedResults.NoContent();
 	}

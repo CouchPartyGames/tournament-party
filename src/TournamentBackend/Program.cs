@@ -38,11 +38,11 @@ builder.Services.AddSwaggerGen(options => {
 builder.Services.AddHealthChecks();
 builder.Services.AddSingleton<IConnectionMultiplexer>(multiplexer);
 
-/*	Sample Health Checks
+
 builder.Services.AddHealthChecks()
-	.AddCheck<SampleHealthCheck>("Sample")
-	.RequireHost("www.contoso.com:5001");
-*/
+	.AddRedis(builder.Configuration["Redis:ConnectionString"])
+    .AddNpgSql(builder.Configuration["ConnectionString"]);
+
 
 /*	Authentication/Authorization
 builder.Services
@@ -53,18 +53,8 @@ builder.Services.AddAuthorization();
 */
 
 
-/*
-builder.Services.AddApiVersioning(options => {
-	options.ReportApiVersions = true;
-	options.AssumeDefaultVersionWhenUnspecified = true;
-	options.DefaultApiVersion = new ApiVersion(1);
-	options.ApiVersionReader = new QueryStringApiVersionReader("version");
-});
-*/
-
 builder.Services.AddDbContext<TournamentContext>(options => 
 	options.UseNpgsql(builder.Configuration["ConnectionString"] ));
-//builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 
@@ -82,5 +72,6 @@ if (app.Environment.IsDevelopment()) {
 app.MapHealthChecks("/healthz");
 app.MatchEndpoints();
 app.TournamentEndpoints();
+app.TournamentTemplates();
 
 app.Run();

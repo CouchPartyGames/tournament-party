@@ -73,5 +73,6 @@ app.MapHealthChecks("/healthz");
 app.MatchEndpoints();
 app.TournamentEndpoints();
 app.TemplateEndpoints();
+app.ParticipantsEndpoints();
 
 app.Run();

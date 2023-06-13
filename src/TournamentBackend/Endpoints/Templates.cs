@@ -20,20 +20,17 @@ public static class Templates {
     /// <summary>
     /// Get a specific Template
     /// </summary>
-	public static Results<Ok<ApiSuccess>, NotFound> GetTemplate(int id, TournamentContext db) {
+	public static Results<Ok<TemplateModel>, NotFound> GetTemplate(int id, TournamentContext db) {
         var template = db.Template.Find(id);
         if (template is null) {
             return TypedResults.NotFound();
         }
 
-		// Match match 
-		ApiSuccess match = new() { Results = $"template" };
-
-		return TypedResults.Ok(match);
+		return TypedResults.Ok(template);
 	}
 
     /// <summary>
-    /// Create Template
+    /// Create a new Template
     /// </summary>
 	public static Results<Created, BadRequest<List<ValidationFailure>>> CreateTemplate(CreateTemplateRequest request, 
 		TournamentContext db/*,
@@ -50,13 +47,13 @@ public static class Templates {
         db.Add(template);
 		db.SaveChanges();
 
-		return TypedResults.Created("/v1/templates/");
+		return TypedResults.Created($"/v1/templates/{template.Id}");
 	}
 
     /// <summary>
     /// Update a specific Template
     /// </summary>
-	public static Results<Ok, BadRequest, NotFound> UpdateTemplate(UpdateTemplateRequest request, 
+	public static Results<Ok, BadRequest, NotFound> UpdateTemplate(int id, UpdateTemplateRequest request, 
 		TournamentContext db/*,
 		IValidator<UpdateTemplateRequest> validator*/) {
 
@@ -67,11 +64,12 @@ public static class Templates {
         }
 		*/
 
-        var template = db.Template.Find(request.Id);
+        var template = db.Template.Find(id);
         if (template is null) {
             return TypedResults.NotFound();
         }
 
+		template.Name = request.Name;
 		db.SaveChanges();
 
 		return TypedResults.Ok();
@@ -83,7 +81,6 @@ public static class Templates {
 	public static Results<NoContent, BadRequest, NotFound> DeleteTemplate(int id, TournamentContext db) {
 
         var template = db.Tournament.Find(id);
-
         if (template is null) {
 			return TypedResults.NotFound();
 		}

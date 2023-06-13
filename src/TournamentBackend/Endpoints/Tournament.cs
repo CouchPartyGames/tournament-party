@@ -80,14 +80,11 @@ public static class Tournament {
     /// <summary>
     /// Creates a Tournament.
     /// </summary>
-    public static Results<Created<ApiSuccess>, BadRequest> CreateTournament(CreateTournamentRequest request, TournamentContext db, IValidator<CreateTournamentRequest> validator) {
+    public static Results<Created<ApiSuccess>, BadRequest<List<ValidationFailure>>> CreateTournament(CreateTournamentRequest request, TournamentContext db, IValidator<CreateTournamentRequest> validator) {
 
         FluentValidation.Results.ValidationResult results = validator.Validate(request);
 		if (!results.IsValid) {
-			//return TypedResults.ValidationProblem(results.Errors);
-			//return TypedResults.BadRequest(results.Errors);
-            return TypedResults.BadRequest();
-
+            return TypedResults.BadRequest(results.Errors);
         }
 
         var tournament = new TournamentModel { Name = request.Name };
@@ -112,13 +109,11 @@ public static class Tournament {
     /// Updates a specific Tournament.
     /// </summary>
     /// <param name="id"></param>
-    public static Results<Ok<ApiSuccess>, BadRequest, NotFound> UpdateTournament(int id, CreateTournamentRequest request, TournamentContext db, IValidator<CreateTournamentRequest> validator) {
+    public static Results<Ok<ApiSuccess>, BadRequest<List<ValidationFailure>>, NotFound> UpdateTournament(int id, CreateTournamentRequest request, TournamentContext db, IValidator<CreateTournamentRequest> validator) {
 
         FluentValidation.Results.ValidationResult results = validator.Validate(request);
         if (!results.IsValid) {
-            //return TypedResults.ValidationProblem(results.Errors);
-            //return TypedResults.BadRequest(results.Errors);
-            return TypedResults.BadRequest();
+            return TypedResults.BadRequest(results.Errors);
 
         }
 

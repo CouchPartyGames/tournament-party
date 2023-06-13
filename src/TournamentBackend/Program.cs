@@ -1,16 +1,18 @@
 using System.Reflection;
+using Serilog;
+using Serilog.Formatting.Compact;
+
+
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console(new RenderedCompactJsonFormatter())
+    .CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
 
-/* Serilog
-builder.Logging.ClearProviders();
-var logging = new LoggingConfiguration()
-	.WriteTo.Console().CreateLogger();
-builder.Logging.AddSerilog(logging);
-*/
 
 var multiplexer = ConnectionMultiplexer.Connect("localhost");
 
+builder.Host.UseSerilog(); 
 builder.Logging.AddJsonConsole();
 builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options => {
 	options.SerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
@@ -35,7 +37,6 @@ builder.Services.AddSwaggerGen(options => {
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
-builder.Services.AddHealthChecks();
 builder.Services.AddSingleton<IConnectionMultiplexer>(multiplexer);
 
 
@@ -60,14 +61,13 @@ builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 var app = builder.Build();
 
-//app.UseAuthentication();
-//app.UseAuthorization();
 
 if (app.Environment.IsDevelopment()) {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
+app.UseSerilogRequestLogging();
 
 app.MapHealthChecks("/healthz");
 app.MatchEndpoints();

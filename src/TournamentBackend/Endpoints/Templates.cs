@@ -1,5 +1,7 @@
 ﻿namespace CouchParty.TournamentBackend.Endpoints;
 
+using TemplateModel = CouchParty.TournamentBackend.Models.Template;
+
 public static class Templates {
 
     public static void TemplateEndpoints(this WebApplication app) {
@@ -18,11 +20,11 @@ public static class Templates {
     /// <summary>
     /// Get a specific Template
     /// </summary>
-    /// <param name="id"></param>
-	public static Results<Ok<ApiSuccess>, NotFound> GetTemplate(string templateId) {
-		if (false) {
-			return TypedResults.NotFound();
-		}
+	public static Results<Ok<ApiSuccess>, NotFound> GetTemplate(int id, TournamentContext db) {
+        var template = db.Template.Find(id);
+        if (template is null) {
+            return TypedResults.NotFound();
+        }
 
 		// Match match 
 		ApiSuccess match = new() { Results = $"template" };
@@ -33,24 +35,51 @@ public static class Templates {
     /// <summary>
     /// Create Template
     /// </summary>
-    /// <param name="id"></param>
-	public static Results<Created, BadRequest> CreateTemplate() {
+	public static Results<Created, BadRequest<List<ValidationFailure>>> CreateTemplate(CreateTemplateRequest request, TournamentContext db) {
+        /*FluentValidation.Results.ValidationResult results = validator.Validate(request);
+		if (!results.IsValid) {
+            return TypedResults.BadRequest(results.Errors);
+        }*/
+
+        var template = new TemplateModel { Name = request.Name };
+        db.Add(template);
+		db.SaveChanges();
+
 		return TypedResults.Created("/v1/templates/");
 	}
 
     /// <summary>
     /// Update a specific Template
     /// </summary>
-    /// <param name="id"></param>
-	public static Results<Ok, BadRequest> UpdateTemplate() {
+	public static Results<Ok, BadRequest, NotFound> UpdateTemplate(UpdateTemplateRequest request, TournamentContext db) {
+        /*FluentValidation.Results.ValidationResult results = validator.Validate(request);
+		if (!results.IsValid) {
+            return TypedResults.BadRequest(results.Errors);
+        }*/
+
+        var template = db.Template.Find(request.Id);
+        if (template is null) {
+            return TypedResults.NotFound();
+        }
+
+		db.SaveChanges();
+
 		return TypedResults.Ok();
 	}
 
     /// <summary>
     /// Delete  a specific Template
     /// </summary>
-    /// <param name="id"></param>
-	public static Results<NoContent, BadRequest> DeleteTemplate() {
+	public static Results<NoContent, BadRequest, NotFound> DeleteTemplate(int id, TournamentContext db) {
+        var template = db.Tournament.Find(id);
+
+        if (template is null) {
+			return TypedResults.NotFound();
+		}
+
+        db.Remove(template);
+        db.SaveChanges();
+
 		return TypedResults.NoContent();
 	}
 }

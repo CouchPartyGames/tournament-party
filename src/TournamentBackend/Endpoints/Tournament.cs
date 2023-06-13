@@ -80,7 +80,7 @@ public static class Tournament {
     /// <summary>
     /// Creates a Tournament.
     /// </summary>
-    public static Results<Created<ApiSuccess>, BadRequest<List<ValidationFailure>>> CreateTournament(CreateTournamentRequest request, TournamentContext db, IValidator<CreateTournamentRequest> validator) {
+    public static Results<Created, BadRequest<List<ValidationFailure>>> CreateTournament(CreateTournamentRequest request, TournamentContext db, IValidator<CreateTournamentRequest> validator) {
 
         FluentValidation.Results.ValidationResult results = validator.Validate(request);
 		if (!results.IsValid) {
@@ -91,18 +91,24 @@ public static class Tournament {
         db.Add(tournament);
         db.SaveChanges();
 
-        ApiSuccess success = new() {
-			Results = tournament
-		};
-		return TypedResults.Created("/v1/tournaments/", success);
+		return TypedResults.Created($"/v1/tournaments/{tournament.Id}");
 	}
 
 	
     /// <summary>
     /// Creates a Tournament from a Preset Template
     /// </summary>
-    public static Results<Created, NotFound> CreateTournamentFromTemplate(int templateId, TournamentContext db) {
-		return TypedResults.Created("/v1/tournaments/");
+    public static Results<Created, NotFound> CreateTournamentFromTemplate(int id, TournamentContext db) {
+        var template = db.Template.Find(id);
+        if (template is null) {
+            return TypedResults.NotFound();
+        }
+
+        var tournament = new TournamentModel { Name = template.Name };
+        db.Add(tournament);
+        db.SaveChanges();
+
+		return TypedResults.Created($"/v1/tournaments/{tournament.Id}");
 	} 
 
     /// <summary>

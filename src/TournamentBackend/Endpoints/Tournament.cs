@@ -67,10 +67,11 @@ public static class Tournament {
 		TournamentContext db, 
 		IValidator<CreateTournamentRequest> validator) {
 
+		/*
         FluentValidation.Results.ValidationResult results = validator.Validate(request);
 		if (!results.IsValid) {
             return TypedResults.BadRequest(FluentValidationErrors.ResultToStrings(results.Errors));
-        }
+        }*/
 
         var tournament = new TournamentModel { Name = request.Name };
         db.Add(tournament);

@@ -1,4 +1,4 @@
-name: Build & Test Artifact
+name: Build Test and Publish Artifacts
 
 on:
   push:
@@ -33,8 +33,6 @@ jobs:
         run: |
           cd src/TournamentBackend
           dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/linux-x64 -p:PublishSingleFile=true -r linux-x64 --self-contained true
-		  cd ${{env.DOTNET_ROOT}}/linux-x64
-          tar -cvf tournament-party.linux-x64.tar *
 
 
 

@@ -71,8 +71,8 @@ jobs:
           # relative path to the place where source code with Dockerfile is located
           context: .
           file: src/TournamentBackend/Dockerfile
-          platforms: linux/amd64,linux/arm64
-          tags: ${{ steps.docker_meta.outputs.tags }}
+          #platforms: linux/amd64,linux/arm64
+          tags: ${VERSION}
           labels: ${{ steps.docker_meta.outputs.tags }}
           push: true
 

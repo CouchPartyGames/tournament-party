@@ -56,7 +56,10 @@ jobs:
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          
+          tags: |
+            ${{ env.VERSION }}
+            latest
+
           labels: |
             org.opencontainers.image.licenses=MIT
             org.opencontainers.image.source=https://github.com/couchpartygames/tournament-party
@@ -72,8 +75,8 @@ jobs:
           context: .
           file: src/TournamentBackend/Dockerfile
           #platforms: linux/amd64,linux/arm64
-          tags: ${VERSION}
-          labels: ${{ steps.docker_meta.outputs.tags }}
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
           push: true
 
       - name: Sign image with a key

@@ -1,5 +1,8 @@
 namespace CouchParty.TournamentBackend.Models.DTO;
 
-public class MatchDTO {
+
+public sealed class UpdateTemplateRequest {
+
 	public string Name { get; set; }
+
 }

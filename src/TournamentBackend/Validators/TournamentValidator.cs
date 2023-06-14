@@ -7,11 +7,13 @@ public sealed class TournamentValidator : AbstractValidator<CreateTournamentRequ
 			.NotEmpty()
 			.WithMessage("Invalid name of tournament");
 
+		/*
 		RuleFor(x => x.Level)
 			.IsInEnum();
 
 		RuleFor(x => x.Type)
 			.IsInEnum();
+		*/
 	}
 
 }

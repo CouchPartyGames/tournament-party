@@ -12,7 +12,7 @@ public static class Match {
 
 		app.MapPut("/v1/matches/{id}", UpdateMatch)
 			.WithName("UpdateMatch");
-  			//.AddEndpointFilter<ValidatorFilter<MatchDTO>>();
+  			//.AddEndpointFilter<ValidatorFilter<UpdateMatchRequest>>();
   			//.RequireAuthorization("Owner")
 			//.RequireAuthorization("Admin");
 
@@ -26,9 +26,8 @@ public static class Match {
     /// <summary>
     /// Get a specific Match
     /// </summary>
-    /// <param name="id"></param>
-	public static Results<Ok<MatchModel>, NotFound> GetMatch(string matchId, TournamentContext db) {
-        var match = db.Match.Find(matchId);
+	public static Results<Ok<MatchModel>, NotFound> GetMatch(int id, TournamentContext db) {
+        var match = db.Match.Find(id);
         if (match is null) {
             return TypedResults.NotFound();
 		}
@@ -39,9 +38,8 @@ public static class Match {
     /// <summary>
     /// Update a specific Match
     /// </summary>
-    /// <param name="id"></param>
-	public static Results<Ok<MatchModel>, NotFound> UpdateMatch(string matchId, TournamentContext db) {
-        var match = db.Match.Find(matchId);
+	public static Results<Ok<MatchModel>, NotFound> UpdateMatch(int id, UpdateMatchRequest request, TournamentContext db) {
+        var match = db.Match.Find(id);
 		if (match is null) {
 			return TypedResults.NotFound();
 		}
@@ -56,9 +54,8 @@ public static class Match {
     /// <summary>
     /// Deletes a specific Match
     /// </summary>
-    /// <param name="id"></param>
-	public static Results<NoContent, NotFound> DeleteMatch(string matchId, TournamentContext db) {
-        var match = db.Match.Find(matchId);
+	public static Results<NoContent, NotFound> DeleteMatch(int id, TournamentContext db) {
+        var match = db.Match.Find(id);
 		if (match is null) {
 			return TypedResults.NotFound();
 		}
@@ -69,6 +66,8 @@ public static class Match {
 			return TypedResults.NoContent();
 		}
 
+			// Gone - 410 (already deleted)
+		//return TypedResults.ProblemHttpResult(410);
 		return TypedResults.NotFound();
 	}
 }

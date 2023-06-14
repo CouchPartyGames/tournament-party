@@ -1,10 +1,7 @@
 namespace CouchParty.TournamentBackend.Validators;
 
-public sealed class MatchValidator : AbstractValidator<MatchDTO> {
+public sealed class MatchValidator : AbstractValidator<UpdateMatchRequest> {
 
 	public MatchValidator() {
-		RuleFor(x => x.Name)
-			.NotEmpty()
-			.WithMessage("Invalid name of tournament");
 	}
 }

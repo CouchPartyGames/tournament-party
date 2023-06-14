@@ -1,4 +1,5 @@
 using System.Reflection;
+using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Serilog;
 using Serilog.Formatting.Compact;
 
@@ -38,7 +39,7 @@ builder.Services.AddSwaggerGen(options => {
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 builder.Services.AddSingleton<IConnectionMultiplexer>(multiplexer);
-
+builder.Services.AddFluentValidationRulesToSwagger();
 
 builder.Services.AddHealthChecks()
 	.AddRedis(builder.Configuration["Redis:ConnectionString"])

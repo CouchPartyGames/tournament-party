@@ -5,6 +5,7 @@ public sealed class TournamentValidator : AbstractValidator<CreateTournamentRequ
 	public TournamentValidator() {
 		RuleFor(x => x.Name)
 			.NotEmpty()
+            .MinimumLength(5)
 			.WithMessage("Invalid name of tournament");
 
 		/*

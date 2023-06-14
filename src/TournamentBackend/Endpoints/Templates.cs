@@ -6,10 +6,13 @@ public static class Templates {
 
         app.MapGet("/v1/templates/{id}", GetTemplate)
 			.WithName("GetTemplate");
+
 		app.MapPost("/v1/templates", CreateTemplate)
 			.WithName("CreateTemplate");
+
         app.MapPut("/v1/templates", UpdateTemplate)
 			.WithName("UpdateTemplate");
+
         app.MapDelete("/v1/templates", DeleteTemplate)
 			.WithName("DeleteTemplate");
 

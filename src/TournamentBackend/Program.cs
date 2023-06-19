@@ -16,6 +16,10 @@ var multiplexer = ConnectionMultiplexer.Connect("localhost");
 builder.Host.UseSerilog(); 
 builder.Logging.AddJsonConsole();
 builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options => {
+	options.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+	options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
+builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options => {
 	options.SerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
 });
 builder.Services.AddEndpointsApiExplorer();

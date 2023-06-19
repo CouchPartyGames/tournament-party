@@ -15,13 +15,13 @@ public static class Tournament {
 
 		app.MapPut("/v1/tournaments/{id}", UpdateTournament)
 			.WithName("UpdateTournament")
-  			.AddEndpointFilter<ValidatorFilter<CreateTournamentRequest>>();
+  			.AddEndpointFilter<ValidatorFilter<UpdateTournamentRequest>>();
         	//.RequireAuthorization("Owner")
         	//.RequireAuthorization("Admin");
 
 		app.MapPost("/v1/tournaments", CreateTournament)
 			.WithName("CreateTournament")
-  			.AddEndpointFilter<ValidatorFilter<UpdateTournamentRequest>>();
+  			.AddEndpointFilter<ValidatorFilter<CreateTournamentRequest>>();
   			//.RequireAuthorization("Owner")
 			//.RequireAuthorization("Admin");
 

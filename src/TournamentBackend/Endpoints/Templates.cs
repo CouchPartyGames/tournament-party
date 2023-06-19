@@ -6,16 +6,18 @@ public static class Templates {
 
     public static void TemplateEndpoints(this WebApplication app) {
 
-        app.MapGet("/v1/templates/{id}", GetTemplate)
+		var group = app.MapGroup("/v1/templates");
+
+        group.MapGet("/{id}", GetTemplate)
 			.WithName("GetTemplate");
 
-		app.MapPost("/v1/templates", CreateTemplate)
+		group.MapPost("/", CreateTemplate)
 			.WithName("CreateTemplate");
 
-        app.MapPut("/v1/templates", UpdateTemplate)
+        group.MapPut("/", UpdateTemplate)
 			.WithName("UpdateTemplate");
 
-        app.MapDelete("/v1/templates", DeleteTemplate)
+        group.MapDelete("/", DeleteTemplate)
 			.WithName("DeleteTemplate");
 
     } 

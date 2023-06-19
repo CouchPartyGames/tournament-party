@@ -8,38 +8,39 @@ public static class Tournament {
 
 	public static void TournamentEndpoints(this WebApplication app) {
 
+		var group = app.MapGroup("/v1/tournaments/");
 
-		app.MapGet("/v1/tournaments/{id}", GetTournament)
+		group.MapGet("{id}", GetTournament)
 			.WithName("GetTournament");
      		//.AllowAnonymous();
 
-		app.MapPut("/v1/tournaments/{id}", UpdateTournament)
+		group.MapPut("{id}", UpdateTournament)
 			.WithName("UpdateTournament")
   			.AddEndpointFilter<ValidatorFilter<UpdateTournamentRequest>>();
         	//.RequireAuthorization("Owner")
         	//.RequireAuthorization("Admin");
 
-		app.MapPost("/v1/tournaments", CreateTournament)
+		group.MapPost("", CreateTournament)
 			.WithName("CreateTournament")
   			.AddEndpointFilter<ValidatorFilter<CreateTournamentRequest>>();
   			//.RequireAuthorization("Owner")
 			//.RequireAuthorization("Admin");
 
             // Create Tournament from a Template
-        app.MapPut("/v1/tournaments/templates/{id}", CreateTournamentFromTemplate)
+        group.MapPut("templates/{id}", CreateTournamentFromTemplate)
 			.WithName("CreateTournamentFromTemplate");
 
-		app.MapDelete("/v1/tournaments/{id}", DeleteTournament)
+		group.MapDelete("{id}", DeleteTournament)
 			.WithName("DeleteTournament");
   			//.RequireAuthorization("Owner")
 			//.RequireAuthorization("Admin");
 
-		app.MapGet("/v1/tournaments/{id}/start", Start)
+		group.MapGet("{id}/start", Start)
 			.WithName("StartTournament");
   			//.RequireAuthorization("Owner")
 			//.RequireAuthorization("Admin");
 
-		app.MapPost("/v1/tournaments/{id}/complete", Complete)
+		group.MapPost("{id}/complete", Complete)
 			.WithName("CompleteTournament");
 
 	}

@@ -4,11 +4,12 @@ public static class Participants {
 
 
 	public static void ParticipantsEndpoints(this WebApplication app) {
+		var group = app.MapGroup("/v1/participants/");
 
-		app.MapPost("/v1/participants/tournaments/{id}", JoinTournament)
+		group.MapPost("tournaments/{id}", JoinTournament)
 			.WithName("Join");
 
-		app.MapDelete("/v1/participants/tournaments/{id}", LeaveTournament)
+		group.MapDelete("/tournaments/{id}", LeaveTournament)
 			.WithName("Leave");
 
 	}

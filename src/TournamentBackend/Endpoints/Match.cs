@@ -6,17 +6,19 @@ public static class Match {
 
 	public static void MatchEndpoints(this WebApplication app) {
 
-		app.MapGet("/v1/matches/{id}", GetMatch)
+		var group = app.MapGroup("/v1/matches/");
+
+		group.MapGet("{id}", GetMatch)
 			.WithName("GetMatch");
      		//.AllowAnonymous();
 
-		app.MapPut("/v1/matches/{id}", UpdateMatch)
+		group.MapPut("{id}", UpdateMatch)
 			.WithName("UpdateMatch");
   			//.AddEndpointFilter<ValidatorFilter<UpdateMatchRequest>>();
   			//.RequireAuthorization("Owner")
 			//.RequireAuthorization("Admin");
 
-		app.MapDelete("/v1/matches/{id}", DeleteMatch)
+		group.MapDelete("{id}", DeleteMatch)
 			.WithName("DeleteMatch");
   			//.RequireAuthorization("Owner")
 			//.RequireAuthorization("Admin");

@@ -3,7 +3,7 @@ namespace CouchParty.TournamentBackend.Endpoints;
 public static class Participants {
 
 
-	public static void ParticipantsEndpoints(this WebApplication app) {
+	public static void AddParticipantsEndpoints(this IEndpointRouteBuilder app) {
 		var group = app.MapGroup("/v1/participants/");
 
 		group.MapPost("tournaments/{id}", JoinTournament)

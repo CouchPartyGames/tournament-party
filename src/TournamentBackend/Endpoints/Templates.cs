@@ -4,7 +4,7 @@ using TemplateModel = CouchParty.TournamentBackend.Models.Template;
 
 public static class Templates {
 
-    public static void TemplateEndpoints(this WebApplication app) {
+    public static void AddTemplateEndpoints(this IEndpointRouteBuilder app) {
 
 		var group = app.MapGroup("/v1/templates");
 

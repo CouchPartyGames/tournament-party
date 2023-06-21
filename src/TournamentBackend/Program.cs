@@ -75,9 +75,9 @@ if (app.Environment.IsDevelopment()) {
 app.UseSerilogRequestLogging();
 
 app.MapHealthChecks("/healthz");
-app.MatchEndpoints();
-app.TournamentEndpoints();
-app.TemplateEndpoints();
-app.ParticipantsEndpoints();
+app.AddMatchEndpoints();
+app.AddTournamentEndpoints();
+app.AddTemplateEndpoints();
+app.AddParticipantsEndpoints();
 
 app.Run();

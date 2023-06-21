@@ -6,7 +6,7 @@ namespace CouchParty.TournamentBackend.Endpoints;
 
 public static class Tournament {
 
-	public static void TournamentEndpoints(this WebApplication app) {
+	public static void AddTournamentEndpoints(this IEndpointRouteBuilder app) {
 
 		var group = app.MapGroup("/v1/tournaments/");
 

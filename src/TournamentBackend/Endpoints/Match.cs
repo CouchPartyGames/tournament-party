@@ -4,7 +4,7 @@ using MatchModel = CouchParty.TournamentBackend.Models.Match;
 
 public static class Match {
 
-	public static void MatchEndpoints(this WebApplication app) {
+	public static void AddMatchEndpoints(this IEndpointRouteBuilder app) {
 
 		var group = app.MapGroup("/v1/matches/");
 

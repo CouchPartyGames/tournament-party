@@ -1,4 +1,4 @@
-namespace CouchParty.TournamentBackend.Enums;
+namespace Domain.Match.Enums;
 
 
 [JsonConverter(typeof(JsonStringEnumConverter))]

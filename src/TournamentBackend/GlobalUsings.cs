@@ -7,6 +7,7 @@ global using AutoMapper;
 global using Microsoft.Extensions.Diagnostics.HealthChecks;
 global using Microsoft.AspNetCore.Http.HttpResults;
 global using Microsoft.OpenApi.Models;
+global using Microsoft.Extensions.Options;
 global using StackExchange.Redis;
 global using System.ComponentModel.DataAnnotations;
 global using System.ComponentModel.DataAnnotations.Schema;

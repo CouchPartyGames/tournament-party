@@ -4,13 +4,13 @@ using Domain.Match.Enums;
 
 public class Match {
 
-    public int Id { get; set; }
+    public int Id { get; private set; }
 
-    public MatchState State { get; set; }
+    public MatchState State { get; private set; } = MatchState.Ready;
 
-    public DateTime Created { get; set; }
+    public DateTime Created { get; private set; }
 
-    public DateTime Started { get; set; }
+    public DateTime Started { get; private set; }
 
-    public DateTime Completed { get; set; }
+    public DateTime Completed { get; private set; }
 }

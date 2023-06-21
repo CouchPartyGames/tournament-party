@@ -1,3 +1,6 @@
+namespace Domain.Tournament.Entities;
+
+using Domain.Tournament.Enums;
 
 public sealed class Tournament {
 	

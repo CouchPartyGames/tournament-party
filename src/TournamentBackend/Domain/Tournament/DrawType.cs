@@ -1,3 +1,4 @@
+namespace Domain.Tournament.Enums;
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum DrawType {

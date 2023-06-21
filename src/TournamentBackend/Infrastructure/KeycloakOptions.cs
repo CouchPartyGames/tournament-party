@@ -21,7 +21,15 @@ public sealed class KeycloakOptionsSetup : IConfigureOptions<KeycloakOptions> {
     public void Configure(KeycloakOptions options) {
         _configuration
             .GetSection(SECTION_NAME)
-            .Bind(options);
+            .Bind(options)
+			.Validate(settings => {
+				//if (settings.Url) {
+				// return false;
+				//}
+
+				return true;
+			})
+			.ValidateOnStartup();
     }
 }
 

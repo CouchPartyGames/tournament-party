@@ -4,7 +4,6 @@ public sealed class DatabaseOptions {
 
 	public string Type { get; set; }
 	public string ConnectionString { get; set; }
-
 }
 
 
@@ -21,6 +20,14 @@ public sealed class DatabaseOptionsSetup : IConfigureOptions<DatabaseOptions> {
     public void Configure(DatabaseOptions options) {
         _configuration
             .GetSection(SECTION_NAME)
-            .Bind(options);
+            .Bind(options)
+			.Validate(settings => {
+				//if (settings.Type) {
+				// return false;
+				//}
+
+				return true;
+			})
+			.ValidateOnStartup();
     }
 }

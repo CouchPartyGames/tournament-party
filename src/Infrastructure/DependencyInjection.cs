@@ -1,5 +1,6 @@
 namespace Infrastructure;
 
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Persistence;

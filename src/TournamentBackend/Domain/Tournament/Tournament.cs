@@ -6,6 +6,7 @@ public sealed class Tournament {
 	
 	[Column(Order = 1)]
 	public int Id { get; private set; }
+	//public CompactGuid Id { get; private set; }
 
 	[Required]
 	[Column(TypeName = "varchar(25)", Order = 2)]

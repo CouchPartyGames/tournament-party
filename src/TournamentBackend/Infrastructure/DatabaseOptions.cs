@@ -7,9 +7,10 @@ public sealed class DatabaseOptions {
 }
 
 
+/*
 public sealed class DatabaseOptionsSetup : IConfigureOptions<DatabaseOptions> {
 
-	private const string SECTION_NAME = "Database";
+	private const string SectionName = "Database";
 
 	private readonly IConfiguration _configuration;
 
@@ -20,7 +21,7 @@ public sealed class DatabaseOptionsSetup : IConfigureOptions<DatabaseOptions> {
     public void Configure(DatabaseOptions options) {
         _configuration
             .GetSection(SECTION_NAME)
-            .Bind(options)
+            .BindConfiguration(SectionName)
 			.Validate(settings => {
 				//if (settings.Type) {
 				// return false;
@@ -28,6 +29,6 @@ public sealed class DatabaseOptionsSetup : IConfigureOptions<DatabaseOptions> {
 
 				return true;
 			})
-			.ValidateOnStartup();
+			.ValidateOnStart();
     }
-}
+}*/

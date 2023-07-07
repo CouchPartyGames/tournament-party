@@ -3,6 +3,7 @@
 using Microsoft.AspNetCore.Routing;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Domain.Entities;
 
 public static class Tournament
 {
@@ -23,7 +24,7 @@ public static class Tournament
     /// <summary>
     /// Returns a specific Tournament.
     /// </summary>
-    public static async Results<Ok<Tournament>, NotFound> GetTournament(int id, IMediator mediator)
+    public static Results<Ok<Tournament>, NotFound> GetTournament(int id, IMediator mediator)
     {
         var result = await mediator.Send(new GetTournamentQuery());
         return TypedResults.Ok(results);

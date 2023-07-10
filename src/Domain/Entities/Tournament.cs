@@ -2,7 +2,7 @@
 
 public sealed class Tournament
 {
-    Guid Id { get; set; }
+    Ulid Id { get; set; }
 
     public string Name { get; set; }
 

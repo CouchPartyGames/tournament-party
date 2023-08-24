@@ -1,4 +1,4 @@
-﻿namespace Domain.Entities;
+﻿namespace Domain.Match;
 
 public sealed class Match {
 

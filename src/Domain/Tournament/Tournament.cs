@@ -1,7 +1,6 @@
-﻿namespace Domain.Entities;
+﻿namespace Domain.Tournament;
 
-public sealed class Tournament
-{
+public sealed class Tournament {
     Ulid Id { get; set; }
 
     public string Name { get; set; }
@@ -12,7 +11,4 @@ public sealed class Tournament
 
     int MaxParticipants { get; set; }
 
-
-
 }
-

@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+﻿using Domain.Match;
 using MediatR;
 
 namespace Application.Matches;

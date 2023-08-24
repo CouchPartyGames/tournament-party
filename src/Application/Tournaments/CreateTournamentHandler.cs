@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Domain.Entities;
+using Domain.Tournament;
 
 namespace Application.Tournaments;
 

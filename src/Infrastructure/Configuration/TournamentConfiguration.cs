@@ -7,7 +7,7 @@ using Domain.Tournament;
 namespace Infrastructure.Configurations;
 
 internal sealed class TournamentConfiguration : IEntityTypeConfiguration<Tournament> {
-    public void Configure(EntityTypeBuilder<Match> entityTypeBuilder) {
+    public void Configure(EntityTypeBuilder<Tournament> entityTypeBuilder) {
 
     }
 }

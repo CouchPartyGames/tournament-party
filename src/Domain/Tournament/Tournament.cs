@@ -1,14 +1,23 @@
 ﻿namespace Domain.Tournament;
 
+public enum State {
+    Registration,
+    Completed
+}
+
 public sealed class Tournament {
-    Ulid Id { get; set; }
+    public Ulid Id { get; private set; }
 
-    public string Name { get; set; }
+    public string Name { get; private set; }
 
-    public string Description { get; set; }
+    public string Description { get; private set; }
 
-    int MinParticipants { get; set; }
+    public int MinParticipants { get; private set; }
 
-    int MaxParticipants { get; set; }
+    public int MaxParticipants { get; private set; }
+
+    public Ulid GameId { get; private set; }
+
+    public Ulid LocationId { get; private set; }
 
 }
